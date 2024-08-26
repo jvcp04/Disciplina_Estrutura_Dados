@@ -1,0 +1,36 @@
+//==================================
+// Faculdade FACI WYDEN
+// Curso: Sistemas de Informação
+// Disciplina: Estrutura de Dados
+// Professor: Iradnildo
+// Aluno: João Vitor Costa
+//==================================
+
+
+// ============= Libs ==============
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+// =================================
+
+
+
+// =================================
+struct funcionario {
+    char nome[50];
+    int idade;
+    float salario;
+};
+//---------------------------------
+int main(){
+    struct funcionario f;
+    strcpy(f.nome,"teste");
+    f.idade = 18;
+    f.salario = 1000;
+    printf("nome: %s\n", f.nome);
+    printf("idade: %d\n", f.idade);
+    printf("salario: %.2f\n", f.salario);
+        system ("PAUSE > null");
+    return 0; 
+}
+// =================================

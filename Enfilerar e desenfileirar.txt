@@ -1,0 +1,124 @@
+﻿//==================================
+// Faculdade FACI WYDEN
+// Curso: Sistemas de Informação
+// Disciplina: Estrutura de Dados
+// Professor: Iradnildo
+// Aluno: João Vitor Costa
+//==================================
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definição da estrutura do nó
+typedef struct Node {
+    int date;
+    struct Node* proximo;
+} Node;
+
+// Função para criar um novo nó
+Node* CriaNo(int data) {
+    Node* NovoNo = (Node*)malloc(sizeof(Node));
+    if (!NovoNo) {
+        printf("Erro ao alocar memória.\n");
+        exit(1);
+    }
+    NovoNo->date = data;
+    NovoNo->proximo = NULL;
+    return NovoNo;
+}
+
+// Definição da estrutura da fila
+typedef struct Fila {
+    Node* inicio;
+    Node* fim;
+} Fila;
+
+// Função para criar uma nova fila
+Fila* CriarFila() {
+    Fila* fila = (Fila*) malloc(sizeof(Fila));
+    if (!fila) {
+        printf("Erro ao alocar memória.\n");
+        exit(1);
+    }
+    fila->inicio = fila->fim = NULL;
+    return fila;
+}
+
+// Função para enfileirar (inserir) um elemento na fila
+void enFila(Fila* Fila, int data) {
+    Node* NovoNo = CriaNo(data);
+    if (Fila->fim == NULL) {
+        Fila->inicio = Fila->fim = NovoNo;
+        return;
+    }
+    Fila->fim->proximo = NovoNo;
+    Fila->fim = NovoNo;
+}
+
+// Função para desenfileirar (remover) um elemento da fila
+int deFila(Fila* Fila) {
+    if (Fila->inicio == NULL) {
+        printf("Fila vazia.\n");
+        return -1;
+    }
+    Node* temp = Fila->inicio;
+    int data = temp->date;
+    Fila->inicio = Fila->inicio->proximo;
+    if (Fila->inicio == NULL) {
+        Fila->fim = NULL;
+    }
+    free(temp);
+    return data;
+}
+
+// Função para verificar se a fila está vazia
+int isEmpty(Fila* Fila) {
+    return Fila->inicio == NULL;
+}
+
+// Função para escrever os elementos da fila
+void EscreveFila(Fila* Fila) {
+    Node* temp = Fila->inicio;
+    while (temp) {
+        printf("%d ", temp->date);
+        temp = temp->proximo;
+    }
+    printf("\n");
+}
+
+int main() {
+    Fila* Fila = CriarFila();
+    int choice, value;
+
+    while (1) {
+        printf("1. Enfileirar\n");
+        printf("2. Desenfileirar\n");
+        printf("3. Imprimir fila\n");
+        printf("4. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Digite um valor para enfileirar: ");
+                scanf("%d", &value);
+                enFila(Fila, value);
+                break;
+            case 2:
+                value = deFila(Fila);
+                if (value != -1) {
+                    printf("Desenfileirado: %d\n", value);
+                }
+                break;
+            case 3:
+                EscreveFila(Fila);
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Opção inválida.\n");
+        }
+    }
+
+    return 0;
+}
